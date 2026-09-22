@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  # Labels help identify and select this Pod from other resources
+  labels:
+    app: my-pod
+  annotations:
+    purpose: "learning/example-pod"
+
+spec:
+  # Default restart policy for Pods created by controllers is Always.
+  # For standalone Pods, you can set Never or OnFailure for batch work.
+  restartPolicy: Always
+  # A small, single-container Pod used for learning. It demonstrates
+  # environment variables, resource requests/limits, probes, and volumes.
+  containers:
+    - name: my-pod
+      image: kicbase/echo-server:1.0
+      imagePullPolicy: IfNotPresent
+      # Expose the container port
+      ports:
+        - containerPort: 80
+      # Simple environment variable injection
+      env:
+        - name: EXAMPLE_ENV
+          value: "hello-from-pod"
+      # Request small resources so it schedules on most clusters
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "250m"
+          memory: "256Mi"
+          
+      # Example volume mount (emptyDir) useful for ephemeral data sharing
+      volumeMounts:
+        - name: scratch
+          mountPath: /tmp
+          readOnly: false
+  # Define volumes used by the Pod
+  volumes:
+    - name: scratch
+      emptyDir: {}
