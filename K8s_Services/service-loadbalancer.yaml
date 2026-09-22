@@ -1,0 +1,27 @@
+# LoadBalancer Service for the 'welcome' app
+# Learning notes:
+# - `type: LoadBalancer` requests an external load balancer from the cloud provider.
+# - On Minikube, LoadBalancer is simulated; use `minikube service <svc>` to reach it.
+# - If your cluster doesn't provide external LB, the Service will remain pending.
+#
+# Key fields:
+# - spec.type: how the Service is exposed (ClusterIP, NodePort, LoadBalancer)
+# - spec.selector: selects Pods matching the label
+# - ports.port: external LB port
+# - ports.targetPort: container port on Pod
+#
+# Try: `kubectl apply -f K8s_Services/service-loadbalancer.yaml` then
+# `kubectl get svc welcome-service-loadbalancer` and `minikube service welcome-service-loadbalancer`"
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: welcome-service-loadbalancer
+
+spec:
+  type: LoadBalancer
+  selector:
+    app: welcome
+  ports:
+  - port: 80        # External port exposed by the load balancer
+    targetPort: 8080 # Container port where the app listens

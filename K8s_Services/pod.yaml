@@ -1,0 +1,37 @@
+# Simple Pod manifest running a tiny echo server
+# Learning notes:
+# - Pods are the atomic unit in Kubernetes. A Pod can contain one or more containers that share the same network namespace and storage.
+# - Prefer Deployments over standalone Pods for long-lived apps; Pods are useful for learning and debugging.
+#
+# Fields of interest:
+# - metadata.labels: used by Services and controllers to select Pods
+# - spec.containers[].image: container image; try changing tag to test rolling updates
+# - resources.requests/limits: scheduler uses requests; limits guard runaway containers
+# - containerPort: documents the port your app listens on; used by Services via targetPort
+#
+# Try:
+#  kubectl apply -f K8s_Services/pod.yaml
+#  kubectl get pod welcome-pod -o wide
+#  kubectl logs welcome-pod
+#
+# Exercise: change the image to another tag and observe behavior using `kubectl delete pod welcome-pod` (Pod recreated only if managed by a controller)."
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: welcome-pod
+  labels:
+    app: welcome
+spec:
+  containers:
+  - name: welcome-container
+    image: kicbase/echo-server:1.0
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "200m"
+        memory: "256Mi"
+    ports:
+    - containerPort: 8080

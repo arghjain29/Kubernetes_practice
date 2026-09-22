@@ -1,0 +1,34 @@
+# NodePort Service for the 'welcome' app
+# Useful for learning: NodePort exposes a Service on each Node's IP at a static port.
+# Typical NodePort range is 30000-32767. Minikube and cloud providers may behave differently:
+# - In Minikube you can use `minikube service <svc>` to open the service in a browser.
+# - On cloud clusters, NodePort is often used with external load balancers or ingress.
+#
+# Key fields explained:
+# - apiVersion/kind: resource type and API version
+# - metadata.name: the Service name used by kubectl and other resources
+# - spec.type: the Service type (NodePort here)
+# - spec.selector: chooses which Pods receive traffic (must match Pod labels)
+# - spec.ports[].port: the Service port (cluster-internal name)
+# - spec.ports[].targetPort: container port on Pods
+# - spec.ports[].nodePort: node port exposed on each node (static port)
+#
+# Try: `kubectl apply -f K8s_Services/service-nodeport.yaml` then
+# `kubectl get svc welcome-service-nodeport -o wide` to inspect mapping."
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: welcome-service-nodeport
+
+spec:
+  type: NodePort
+  # Selector must match the Pod/Deployment label `app: welcome`
+  selector:
+    app: welcome
+  ports:
+  - port: 8080        # Service port (cluster-facing)
+    targetPort: 8080  # Container port where the app listens
+    # NodePort: static port on each cluster node. Use a value in 30000-32767
+    nodePort: 30080

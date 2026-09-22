@@ -1,0 +1,45 @@
+# Deployment for the 'welcome' application (replicated)
+# Learning notes:
+# - A Deployment manages ReplicaSets which manage Pods. Use Deployments for rolling updates, scale, and self-healing.
+# - `replicas` controls how many Pod replicas should run.
+# - `spec.selector.matchLabels` must match the Pod template labels.
+# - To update the app, change `image` and run `kubectl apply -f` — Deployment performs a rolling update.
+#
+# Exercises:
+# - Scale: `kubectl scale deployment welcome-deployment --replicas=5`
+# - Rolling update: change `image` to a new tag and `kubectl apply -f` to observe pod turnover
+# - Inspect rollout: `kubectl rollout status deployment/welcome-deployment`
+# - Rollback: `kubectl rollout undo deployment/welcome-deployment`
+#
+# Useful commands:
+# `kubectl get deploy`, `kubectl describe deploy welcome-deployment`, `kubectl get rs`"
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: welcome-deployment
+  labels:
+    app: welcome
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: welcome
+  template:
+    metadata:
+      labels:
+        app: welcome
+    spec:
+      containers:
+      - name: welcome-container
+        image: kicbase/echo-server:1.0
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
+        ports:
+        - containerPort: 8080
