@@ -5,6 +5,7 @@ This repository is for practicing Kubernetes locally. It will grow over time; th
 
 ## Repository Structure
 - [SettingUP_Enviroment/](./SettingUP_Enviroment/): Setup guide for Minikube, `kubectl`, Docker, and Windows-specific instructions.
+ - [Basic_Pods/](./Basic_Pods/): Simple Pod examples and learning notes (`basic_pods.md`).
 
 ## Learning Notes
 - [SettingUP_Enviroment/settingup_minikube_kubectl.md](SettingUP_Enviroment/settingup_minikube_kubectl.md): Step-by-step Windows setup for Docker, Chocolatey, `kubectl`, and Minikube.
@@ -23,6 +24,18 @@ minikube start --driver=docker
 kubectl create deployment hello-k8s --image=kicbase/echo-server:1.0
 kubectl expose deployment hello-k8s --type=NodePort --port=8080
 minikube service hello-k8s
+```
+
+Deploy the learning Pod example:
+
+```powershell
+# Apply the example Pod manifest
+kubectl apply -f Basic_Pods/pod.yaml
+
+# Inspect Pod status, logs and events while learning
+kubectl get pods -w
+kubectl describe pod my-pod
+kubectl logs my-pod
 ```
 
  
