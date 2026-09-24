@@ -7,10 +7,13 @@ This repository is for practicing Kubernetes locally. It will grow over time; th
 - [SettingUP_Enviroment/](./SettingUP_Enviroment/): Setup guide for Minikube, `kubectl`, Docker, and Windows-specific instructions.
 - [Basic_Pods/](./Basic_Pods/): Simple Pod examples and learning notes.
 - [K8s_Services/](./K8s_Services/): Deployment, Pod, and Service examples (NodePort & LoadBalancer) with learning comments.
+- [k8s_Volumes/](./k8s_Volumes/): PersistentVolume, PersistentVolumeClaim, and Pod storage examples with troubleshooting notes.
 
 ## Learning Notes
- - See `SettingUP_Enviroment/README.md` for setup steps and verification.  
+ - See `SettingUP_Enviroment/README.md` for setup steps and verification.
+ - `Basic_Pods/README.md` explains simple Pod examples and container basics.
  - `K8s_Services/README.md` explains Deployments and Services examples.
+ - `k8s_Volumes/README.md` explains persistent storage, PV/PVC binding, and volume mounting.
 
 ## Quick Start
 1. Follow the setup guide: `SettingUP_Enviroment/settingup_minikube_kubectl.md`.
@@ -47,6 +50,25 @@ Services example quick test:
 kubectl apply -f K8s_Services/deployment.yaml
 kubectl apply -f K8s_Services/service-nodeport.yaml
 minikube service welcome-service-nodeport
+```
+
+Volumes example quick test:
+
+```powershell
+# Create the PV and PVC
+kubectl apply -f k8s_Volumes/pv.yaml
+kubectl apply -f k8s_Volumes/pvc.yaml
+
+# Create a Pod that mounts the PVC
+kubectl apply -f k8s_Volumes/pod-volume.yaml
+
+# Verify the Pod is running and the volume is mounted
+kubectl get pods
+kubectl describe pod pod-with-storage
+kubectl exec -it pod-with-storage -- sh
+/ # cd /mnt/data
+/mnt/data # echo "I WAS HERE" > note.txt
+/mnt/data # cat note.txt
 ```
 
  

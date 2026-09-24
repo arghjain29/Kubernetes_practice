@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-storage # Pod name used for testing the mounted storage
+
+spec:
+  containers:
+  - name: pod-with-storage # Container name inside the Pod
+    image: busybox # Lightweight image for testing file operations
+    command: ["sh", "-c", "echo Hello Kubernetes! && sleep 3600"] # Keeps container alive for testing
+    resources:
+      requests:
+        memory: "64Mi" # Minimum memory guaranteed to the container
+        cpu: "250m" # Minimum CPU guaranteed to the container
+      limits:
+        memory: "128Mi" # Maximum memory allowed for the container
+        cpu: "500m" # Maximum CPU allowed for the container
+    ports:
+      - containerPort: 80 # Example application port, not strictly used here
+    volumeMounts:
+      - name: storage-volume # Name of the volume to mount
+        mountPath: "/mnt/data" # Path inside the container where the storage is available
+  volumes:
+    - name: storage-volume # Volume name referenced by volumeMounts
+      persistentVolumeClaim:
+        claimName: demo-pvc # Connect this Pod to the requested PVC
