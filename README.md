@@ -8,12 +8,14 @@ This repository is for practicing Kubernetes locally. It will grow over time; th
 - [Basic_Pods/](./Basic_Pods/): Simple Pod examples and learning notes.
 - [K8s_Services/](./K8s_Services/): Deployment, Pod, and Service examples (NodePort & LoadBalancer) with learning comments.
 - [k8s_Volumes/](./k8s_Volumes/): PersistentVolume, PersistentVolumeClaim, and Pod storage examples with troubleshooting notes.
+- [K8s_config_secrets/](./K8s_config_secrets/): ConfigMap, Secret, and environment injection examples with learning notes.
 
 ## Learning Notes
  - See `SettingUP_Enviroment/README.md` for setup steps and verification.
  - `Basic_Pods/README.md` explains simple Pod examples and container basics.
  - `K8s_Services/README.md` explains Deployments and Services examples.
  - `k8s_Volumes/README.md` explains persistent storage, PV/PVC binding, and volume mounting.
+ - `K8s_config_secrets/README.md` explains ConfigMaps, Secrets, and loading env vars into a Pod.
 
 ## Quick Start
 1. Follow the setup guide: `SettingUP_Enviroment/settingup_minikube_kubectl.md`.
@@ -69,6 +71,27 @@ kubectl exec -it pod-with-storage -- sh
 / # cd /mnt/data
 /mnt/data # echo "I WAS HERE" > note.txt
 /mnt/data # cat note.txt
+```
+
+ConfigMap and Secret example quick test:
+
+```powershell
+# Create the ConfigMap, Secret, and Pod
+kubectl apply -f K8s_config_secrets/configmap.yaml
+kubectl apply -f K8s_config_secrets/secret.yaml
+kubectl apply -f K8s_config_secrets/pod-env.yaml
+
+# Check the injected values inside the container
+kubectl exec -it my-pod -- sh
+/ # echo $VAR_1
+/ # echo $VAR_2
+/ # echo $password
+```
+
+The Secret value was encoded with base64 first:
+
+```powershell
+echo -n "supersecret" | base64
 ```
 
  
