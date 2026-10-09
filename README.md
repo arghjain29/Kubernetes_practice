@@ -10,6 +10,7 @@ This repository is for practicing Kubernetes locally. It will grow over time; th
 - [k8s_Volumes/](./k8s_Volumes/): PersistentVolume, PersistentVolumeClaim, and Pod storage examples with troubleshooting notes.
 - [K8s_config_secrets/](./K8s_config_secrets/): ConfigMap, Secret, and environment injection examples with learning notes.
 - [K8s_namespaces_resources/](./K8s_namespaces_resources/): Namespace and resource-limit examples for isolating workloads and controlling CPU and memory usage.
+- [K8s_EC2/](./K8s_EC2/): AWS EC2 Ubuntu setup guide and Minikube deployment notes for running a React Todo List app.
 
 ## Learning Notes
  - See `SettingUP_Enviroment/README.md` for setup steps and verification.
@@ -17,7 +18,8 @@ This repository is for practicing Kubernetes locally. It will grow over time; th
  - `K8s_Services/README.md` explains Deployments and Services examples.
  - `k8s_Volumes/README.md` explains persistent storage, PV/PVC binding, and volume mounting.
  - `K8s_config_secrets/README.md` explains ConfigMaps, Secrets, and loading env vars into a Pod.
-- `K8s_namespaces_resources/README.md` explains namespaces, resource requests, and resource limits for workload isolation.
+ - `K8s_namespaces_resources/README.md` explains namespaces, resource requests, and resource limits for workload isolation.
+  - `K8s_EC2/README.md` explains the EC2 Ubuntu setup, Minikube installation, and app exposure workflow.
 
 ## Quick Start
 1. Follow the setup guide: `SettingUP_Enviroment/settingup_minikube_kubectl.md`.
